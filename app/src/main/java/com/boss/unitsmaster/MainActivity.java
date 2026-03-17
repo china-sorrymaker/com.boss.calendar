@@ -1,26 +1,24 @@
-package com.boss.unitsmaster;
+package com.boss.calendar;
 
 import android.os.Bundle;
+import android.widget.CalendarView;
+import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
+import com.boss.calendar.R; // 准确定位
 
 public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // 1. 确保你的 layout 名字叫 activity_main
         setContentView(R.layout.activity_main);
 
-        // 2. 初始化 AdMob (这一步没做也会闪退)
-        MobileAds.initialize(this, initializationStatus -> {});
+        CalendarView calendarView = findViewById(R.id.calendarView);
+        TextView tvDate = findViewById(R.id.tv_selected_date);
 
-        // 3. 加载广告 (前提是你的 XML 里得有 adView 这个 ID)
-        AdView mAdView = findViewById(R.id.adView);
-        if (mAdView != null) {
-            AdRequest adRequest = new AdRequest.Builder().build();
-            mAdView.loadAd(adRequest);
-        }
+        calendarView.setOnDateChangeListener((view, year, month, dayOfMonth) -> {
+            // 月份从 0 开始，所以 +1
+            String date = year + "-" + (month + 1) + "-" + dayOfMonth;
+            tvDate.setText(date);
+        });
     }
 }
